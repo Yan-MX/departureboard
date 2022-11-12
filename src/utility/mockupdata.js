@@ -1,0 +1,84 @@
+const data2 = JSON.parse(`
+{"stopPlace":{
+       "id":"NSR:StopPlace:4000",
+       "name":"Jernbanetorget",
+       "estimatedCalls":[
+          {
+             "aimedArrivalTime":"2022-11-12T11:15:00+0100",
+             "expectedArrivalTime":"2022-11-12T11:15:30+0100",
+             "destinationDisplay":{
+                "frontText":"Fornebu"
+             },
+             "serviceJourney":{
+                "journeyPattern":{
+                   "line":{
+                      "name":"Snarøya - Fornebu - Tonsenhage - Grorud",
+                      "publicCode":"31"
+                   }
+                }
+             }
+          },
+          {
+             "aimedArrivalTime":"2022-11-12T11:17:00+0100",
+             "expectedArrivalTime":"2022-11-12T11:17:09+0100",
+             "destinationDisplay":{
+                "frontText":"Grorud T"
+             },
+             "serviceJourney":{
+                "journeyPattern":{
+                   "line":{
+                      "name":"Snarøya - Fornebu - Tonsenhage - Grorud",
+                      "publicCode":"31"
+                   }
+                }
+             }
+          },
+          {
+             "aimedArrivalTime":"2022-11-12T11:18:00+0100",
+             "expectedArrivalTime":"2022-11-12T11:18:19+0100",
+             "destinationDisplay":{
+                "frontText":"Vippetangen"
+             },
+             "serviceJourney":{
+                "journeyPattern":{
+                   "line":{
+                      "name":"Vippetangen - Tonsenhagen",
+                      "publicCode":"60"
+                   }
+                }
+             }
+          },
+          {
+             "aimedArrivalTime":"2022-11-12T11:17:00+0100",
+             "expectedArrivalTime":"2022-11-12T11:18:40+0100",
+             "destinationDisplay":{
+                "frontText":"Skullerud"
+             },
+             "serviceJourney":{
+                "journeyPattern":{
+                   "line":{
+                      "name":"Nationaltheatret - Skullerud T",
+                      "publicCode":"70"
+                   }
+                }
+             }
+          },
+          {
+             "aimedArrivalTime":"2022-11-12T11:21:00+0100",
+             "expectedArrivalTime":"2022-11-12T11:22:46+0100",
+             "destinationDisplay":{
+                "frontText":"Tjuvholmen"
+             },
+             "serviceJourney":{
+                "journeyPattern":{
+                   "line":{
+                      "name":"Tjuvholmen - Kjelsås stasjon",
+                      "publicCode":"54"
+                   }
+                }
+             }
+          }
+       ]
+    }
+ }
+ `);
