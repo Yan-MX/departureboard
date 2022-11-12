@@ -10,9 +10,13 @@ function App() {
 
 
   useEffect(() => {
+    //create a new queue
     let requestQueue = new Queue();
+    // to call the API and fetch data
     async function fetchData() {
+      //if there is no queue, namely no previous API calls waiting for responses
       if (!isQueued.current) {
+        // if there is no request in the queue, namely the first time we fire the API call
         if (requestQueue.length === 0) {
           isQueued.current = true;
           await delay(5000);
@@ -20,6 +24,7 @@ function App() {
           isQueued.current = false;
           setData(responsedata);
         } else {
+          //if there is already requests in the queue, we retrieve the last request in the queue and then empty the queue
           let lastquery = requestQueue.peekTail;
           requestQueue.emptyQueue();
           console.log("queue cleared")
@@ -30,11 +35,13 @@ function App() {
           setData(responsedata);
         }
       } else {
+        //there is a queue, add the query in the queue
         requestQueue.enqueue(query);
         console.log("added one query to requestQueue");
         console.log("requestQueue length: "+requestQueue.length);
       }
     }
+    //API call attempts every second
     const interval = setInterval(() => fetchData(), 1000);
 
     return () => clearInterval(interval);
