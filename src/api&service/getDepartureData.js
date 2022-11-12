@@ -1,7 +1,7 @@
 import { query } from "../utilities/query";
 
 const getDepartureData = async () => {
-  console.log("fetch data called");
+  console.log("API fetch data called");
   try {
     const response = await fetch(
       "https://api.entur.io/journey-planner/v2/graphql",
@@ -17,12 +17,12 @@ const getDepartureData = async () => {
     console.log(response.status);
     if (response.status === 200) {
       const result = await response.json();
-
       return result.data;
     }else {
       return null;
     }
-  } catch {
+  } catch(error){
+    console.log(error.message);
     return null; // network error
   }
 };
