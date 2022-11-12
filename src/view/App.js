@@ -1,18 +1,31 @@
-import { query } from "../utility/query";
+import { query } from "../utilities/query";
 import getDepartureData  from "../api&service/getDepartureData";
 import React, { useState, useEffect } from "react";
+import {Queue} from "../utilities/queue"
+import delay from "../utilities/utility";
 
 function App() {
   const [data, setData] = useState("");
-
+  const [isFirstQuery,setIsFirstQuery]=useState(true);
+  const [isQueueing,setIsQueueing]=useState(false);
+  let isQueued = false;
+  let requestQueue = new Queue();
+  
 
   useEffect(() => {
     async function fetchData() {
-      console.log("fetch data called");
-       let responsedata = await getDepartureData(query);
-       setData(responsedata);
+       if(!isQueued){
+        isQueued =true;
+        await delay(30000);
+        let responsedata = await getDepartureData(query);
+        isQueued=false;
+        setData(responsedata);
+       }else{
+        console.log("queued");
+       }
+     
      }
-    const interval = setInterval(() =>fetchData(),
+    const interval = setInterval(() => fetchData(),
     5000);
  
     return () => clearInterval(interval);
