@@ -1,0 +1,35 @@
+.container {
+  display: flex;
+  flex-direction: row;
+  align-self: center;
+}
+
+.center {
+  pointer-events: none;
+  border: none;
+  align-self: center;
+}
+
+p {
+  font-size: large;
+  white-space: initial;
+  word-wrap: break-word;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+}
+
+h2 {
+  margin-left: 50;
+  font-size: xx-large;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+}
+
+.img {
+  height: 60;
+  width: 30;
+  align-self: center;
+}
+.destination {
+    width: 40%;
+  }
