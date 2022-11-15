@@ -7,6 +7,7 @@ import "./App.css";
 import Bus from "../utilities/bus.png";
 function App() {
   const [data, setData] = useState("");
+  //isQueued is true when the previous api is still waiting for response
   const isQueued = useRef(false);
   let currentTime = new Date();
 

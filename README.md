@@ -7,7 +7,7 @@ This project is a departure board that give real-time information about buses at
 ###### Each API call takes 5 seconds (we mock this by set 5 seconds timeout before make the call)
 ###### Before the first API call receives its response, other new queries will be stored in a queue
 ###### We check every second, if the previous call has received its response. If so, we send the last query in the queue and clear the queue. Otherwise, we add the new query in the queue
-
+![](https://media.giphy.com/media/uahQgMNFVbuvkn9dOK/giphy.gif)
 ## Available Scripts
 
 In the project directory, you can run:
