@@ -3,8 +3,48 @@ import getDepartureData from "../api&service/getDepartureData";
 import React, { useState, useEffect, useRef } from "react";
 import { Queue } from "../utilities/queue";
 import delay, { getDelayedMins } from "../utilities/utility";
-import "./App.css";
-import Bus from "../utilities/bus.png";
+import { styled } from "@mui/material/styles";
+import { keyframes } from "@mui/system";
+import DirectionsBusIcon from "@mui/icons-material/DirectionsBus";
+
+const blink = keyframes`
+  from { opacity: 0; }
+  to { opacity: 1; }
+`;
+
+const BlinkedBox = styled("div")({
+  backgroundColor: "red",
+  width: 25,
+  height: 25,
+  borderRadius: 50,
+  animation: `${blink} 1s linear infinite`,
+  alignSelf:"center"
+});
+
+const InfoRow = styled("div")({
+  display: "flex",
+  flexDirection: "row",
+  justifyContent: "flex-start",
+  alignSelf: "center",
+});
+const IconWrapper = styled("div")({
+  alignSelf: "center",
+});
+
+const Text = styled("p")({
+  fontFamily: "sans-serif",
+  fontSize:"large",
+  wordWrap:"break-word",
+  whiteSpace:"initial",
+});
+const DestinationText = styled("p")({
+  fontFamily: "sans-serif",
+  fontSize:"large",
+  wordWrap:"break-word",
+  whiteSpace:"initial",
+  width: "40%",
+});
+
 function App() {
   const [data, setData] = useState("");
   //isQueued is true when the previous api is still waiting for response
@@ -24,7 +64,7 @@ function App() {
           await delay(5000);
           let responsedata = await getDepartureData(query);
           isQueued.current = false;
-          if (responsedata!=null) {
+          if (responsedata != null) {
             setData(responsedata);
           }
         } else {
@@ -36,7 +76,7 @@ function App() {
           await delay(5000);
           let responsedata = await getDepartureData(lastquery);
           isQueued.current = false;
-          if (responsedata!=null) {
+          if (responsedata != null) {
             setData(responsedata);
           }
         }
@@ -59,34 +99,21 @@ function App() {
       <div>
         <h2>Jernbanetorget</h2>
         {data.stopPlace.estimatedCalls.map((item, index) => (
-          <div key={index} className="container">
-            <img
-              src={Bus}
-              className="center"
-              margin-top="50"
-              height="30"
-              alt="bus"
-              width="50"
-            />
-            <p>{item.serviceJourney.journeyPattern.line.publicCode}</p>
-            &nbsp;
-            <p className="destination"> {item.destinationDisplay.frontText}</p>
-            <p>
+          <InfoRow key={index} >
+          <IconWrapper><DirectionsBusIcon /></IconWrapper> 
+            <Text>{item.serviceJourney.journeyPattern.line.publicCode}</Text>
+         
+            <DestinationText> {item.destinationDisplay.frontText}</DestinationText>
+            <Text>
               In {getDelayedMins(item.expectedArrivalTime, currentTime)} min
-            </p>
+            </Text>
             {getDelayedMins(item.expectedArrivalTime, item.aimedArrivalTime) >
             0 ? (
-              <iframe
-                className="center"
-                frameBorder="0"
-                height="50"
-                width="30"
-                src="https://embed.lottiefiles.com/animation/124765"
-              ></iframe>
+              <BlinkedBox />
             ) : (
               ""
             )}
-          </div>
+          </InfoRow>
         ))}
       </div>
     )
