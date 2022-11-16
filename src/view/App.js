@@ -2,7 +2,7 @@ import { query } from "../utilities/query";
 import getDepartureData from "../api&service/getDepartureData";
 import React, { useState, useEffect, useRef } from "react";
 import { Queue } from "../utilities/queue";
-import delay, { getDelayedMins } from "../utilities/utility";
+import { getDelayedMins, delay, getArrivalTime } from "../utilities/utility";
 import { styled } from "@mui/material/styles";
 import { keyframes } from "@mui/system";
 import DirectionsBusIcon from "@mui/icons-material/DirectionsBus";
@@ -18,7 +18,7 @@ const BlinkedBox = styled("div")({
   height: 25,
   borderRadius: 50,
   animation: `${blink} 1s linear infinite`,
-  alignSelf:"center"
+  alignSelf: "center",
 });
 
 const InfoRow = styled("div")({
@@ -33,15 +33,15 @@ const IconWrapper = styled("div")({
 
 const Text = styled("p")({
   fontFamily: "sans-serif",
-  fontSize:"large",
-  wordWrap:"break-word",
-  whiteSpace:"initial",
+  fontSize: "large",
+  wordWrap: "break-word",
+  whiteSpace: "initial",
 });
 const DestinationText = styled("p")({
   fontFamily: "sans-serif",
-  fontSize:"large",
-  wordWrap:"break-word",
-  whiteSpace:"initial",
+  fontSize: "large",
+  wordWrap: "break-word",
+  whiteSpace: "initial",
   width: "40%",
 });
 
@@ -60,25 +60,13 @@ function App() {
       if (!isQueued.current) {
         // if there is no request in the queue, namely the first time we fire the API call
         if (requestQueue.length === 0) {
-          isQueued.current = true;
-          await delay(5000);
-          let responsedata = await getDepartureData(query);
-          isQueued.current = false;
-          if (responsedata != null) {
-            setData(responsedata);
-          }
+          await getData(query);
         } else {
           //if there is already requests in the queue, we retrieve the last request in the queue and then empty the queue
           let lastquery = requestQueue.peekTail;
           requestQueue.emptyQueue();
           console.log("queue cleared");
-          isQueued.current = true;
-          await delay(5000);
-          let responsedata = await getDepartureData(lastquery);
-          isQueued.current = false;
-          if (responsedata != null) {
-            setData(responsedata);
-          }
+          await getData(lastquery);
         }
       } else {
         //there is a queue, add the query in the queue
@@ -99,14 +87,15 @@ function App() {
       <div>
         <h2>Jernbanetorget</h2>
         {data.stopPlace.estimatedCalls.map((item, index) => (
-          <InfoRow key={index} >
-          <IconWrapper><DirectionsBusIcon /></IconWrapper> 
+          <InfoRow key={index}>
+            <IconWrapper>
+              <DirectionsBusIcon />
+            </IconWrapper>
             <Text>{item.serviceJourney.journeyPattern.line.publicCode}</Text>
-         
-            <DestinationText> {item.destinationDisplay.frontText}</DestinationText>
-            <Text>
-              In {getDelayedMins(item.expectedArrivalTime, currentTime)} min
-            </Text>
+            <DestinationText>
+              {item.destinationDisplay.frontText}
+            </DestinationText>
+            <Text>{getArrivalTime(item.expectedArrivalTime, currentTime)}</Text>
             {getDelayedMins(item.expectedArrivalTime, item.aimedArrivalTime) >
             0 ? (
               <BlinkedBox />
@@ -118,6 +107,16 @@ function App() {
       </div>
     )
   );
+
+  async function getData(query) {
+    isQueued.current = true;
+    await delay(5000);
+    let responsedata = await getDepartureData(query);
+    isQueued.current = false;
+    if (responsedata != null) {
+      setData(responsedata);
+    }
+  }
 }
 
 export default App;
